@@ -1,0 +1,447 @@
+<%- include('../partials/header') %>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+    /* Disable the body content */
+    /* body {
+      pointer-events: none;
+    } */
+
+    /* Add the invisible overlay */
+    .overlay {
+      position: fixed;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* Set a high z-index to ensure the overlay is on top of other elements */
+      z-index: 9998;
+    }
+
+    /* Center the div horizontally and vertically */
+    .center {
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /* Set a high z-index to ensure the div is on top of other elements */
+      z-index: 9999;
+      /* Set the background color and padding for the div */
+      background-color: #ffffff;
+      padding: 20px;
+      /* pointer-events: all; */
+    }
+  </style>
+
+
+<!-- capture -->
+<div id="app"></div>
+
+<button id="capture-button" hidden>Capture Photo</button>
+<canvas id="photo-canvas" style="display: none;"></canvas>
+
+<!-- capture -->
+
+  <% if (thisfp) { %>
+ <input type="hidden" id="thisfp" value="1">
+ <% } else { %>
+  <input type="hidden" id="thisfp" value="0">
+  <% } %>
+
+
+<% if (!userdata.dev1 && !userdata.dev2) { %>
+ <!--  -->
+<div class="overlay" style="background-color: rgba(0, 0, 0, 0.36);"></div>
+<div class="center" id="info-link" style="display: none;">
+  <center><h5>YOU HAVEN'T LINKED YOUR DEVICES YET!</h5></center> 
+  <br>
+   <h6>Link your phone and laptop to your account, you will only be able to check-in from these linked
+    devices. Click on Link Device then login from your second device and do the same. <br> You won't be able to change or edit these linked devices once it's linked</h6>
+  <p>You can only link 2 devices and won't be able to check-in without linking your devices</p>
+  
+  
+  
+    <br>
+    <center><button class="btn bg-primary-light" id="link">LINK DEVICE</button></center>
+
+</div>
+<!--  -->
+<% } %>
+
+<% if (userdata.dev1 && !userdata.dev2) { %>
+    <!--  -->
+   <div class="overlay" style="background-color: rgba(0, 0, 0, 0.36);"></div>
+   <div class="center" id="info-link" style="display: none;">
+
+    <% if (thisfp==userdata.dev1) { %>
+      <center><h5>THIS DEVICE IS SUCCESSFULLY LINKED TO YOUR ACCOUNT</h5></center> 
+      <br>
+       <h6>Now login from your second device and link that device to continue. <br> Refresh this page after linking the second device.</h6>
+      <p>You can only link 2 devices and won't be able to check-in without linking your devices</p>
+      
+      
+      
+        <br>
+       
+           <center><button class="btn bg-primary-light"><a href="/logout">LOGOUT</a></button></center> 
+     <% } else { %>
+      
+      <center><h5>YOU HAVEN'T LINKED THIS DEVICE YET!</h5></center> 
+      <br>
+       <h6>Link the device to continue. Make sure it's your own devices that you are linking to your account. You will only be able to check-in from these linked devices.</h6>
+      <p></p>
+      
+      
+      
+        <br>
+       
+        <center><button class="btn bg-primary-light" id="link">LINK DEVICE</button></center>
+
+
+    <% } %>
+    
+    
+   
+   </div>
+   <!--  -->
+   <% } %>
+
+
+
+
+ 
+
+<section class="content-main">
+    <div class="content-header">
+        <div class="">
+            <h2 class="content-title card-title text-center">Dashboard </h2>
+            <p id="device-info"></p>
+            <p>Whole data about your attendance here</p>
+            <p id="device-model"></p>
+        </div>
+        <div>
+          <!-- <% if (signedin) { %>
+            <% if (userdata.dev1==thisfp || userdata.dev2==thisfp) { %> -->
+            <a href="/checkin" class="btn btn-primary" style="background-color:#0e4d92;" ><i class="text-muted material-icons md-login"></i>CHECK-OUT</a>
+            <!-- <% } %>
+            <% } else if (!signedin && userdata.dev1 && userdata.dev2) { %>
+              <% if (userdata.dev1==thisfp || userdata.dev2==thisfp) { %> -->
+               
+                <a href="/checkout" class="btn btn-primary" style="background-color:#0e4d92;"><i class="text-muted material-icons md-login"></i>CHECK-IN</a>
+
+              <!-- <% } %>
+              <% } %> -->
+            
+            <div id="clock"></div>
+            <% if (noip) { %>
+             <p>Please connect to brototype <br> network to check-in.</p>
+            <% } %>
+
+            <% if (inout) { %>
+              <p>You are already logged for the day. <br> </p>
+             <% } %>
+
+           
+
+          
+
+            <% if (!userdata.dev1 || !userdata.dev2) { %>
+             <p>NO DEVICES FOUND</p>
+            <% } %>
+
+         
+
+            
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      
+      <div class="col-xl-4 col-lg-12">
+        <div class="card mb-4">
+         
+
+            <article class="card-body">
+                <h5 class="card-title">Attendance</h5>
+                <span class="text-muted font-xs">Current Attendance of this month</span>
+                <div class="progress mb-3">
+                
+                    <div class="progress-bar" role="progressbar" style="width: <%=percentage%>%"><%=percentage%>%</div>
+                    
+                </div>
+              
+                
+            </article>
+        </div>
+        
+    </div>
+
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light" ><i class="text-danger material-icons md-event_busy" style="position: relative;top:12px;" ></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Absent Days</h6>
+                        <span><%=absent %></span>
+                        <span class="text-sm mt-5 mb-5">
+                            Absent days of current month
+                        </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        
+      
+    </div>
+    
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-8 col-lg-12">
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">Statistics</h5>
+                    <button class="btn bg-primary-light" style="visibility: hidden;" id="link">LINK DEVICE</button>
+                    <canvas id="myChart" height="120px"></canvas>
+                </article>
+            </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card mb-4">
+                       
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+
+
+        
+       
+         <canvas id="chartData" style="display: none;"  data-monthly="<%=daily %>" ></canvas>
+          <canvas id="chartData1" style="display: none;"   data-overall="<%=overall %>"></canvas>
+
+       
+               
+</section>
+
+
+<script>
+  function checkout()
+  {
+    let now = new Date()
+    
+
+    const date = new Date(); 
+    date.setHours(17); 
+    date.setMinutes(30); 
+
+    if(now.getTime()<date.getTime())
+    {
+      if(window.confirm("You won't be able to check-in back today. Are you sure you want to checkout?Click on to confirm"))
+      {
+        window.location.href = "/checkout"
+
+      }
+
+    }
+
+
+  }
+</script>
+
+<script src="/javascripts/fp.js"></script>
+
+
+<script>
+
+
+
+
+  let checkin
+
+  let checkin2 
+
+  function run(checkin1)
+  {
+    if(checkin1)
+    {
+      checkin2 = true
+      checkin = "true"
+    }
+    else
+    {
+      let date = new Date()
+      date.setHours(17,30,0)
+      let now = new Date()
+      checkin2 = false
+
+      console.log(date.getTime());
+      console.log(now.getTime());
+      
+      if(now.getTime()<date.getTime())
+      {
+        if(window.confirm("Checking out before 5:30 will be marked as absent.Click ok to checkout."))
+      {
+        checkin = ""
+      }
+      else
+      {
+        return
+      }
+      }
+      {
+        if(window.confirm("Click on ok to checkout."))
+      {
+        checkin = ""
+      }
+      else
+      {
+        return
+      }
+      }
+     
+      
+    }
+    const myButton = document.getElementById('capture-button');
+
+    console.log(checkin);
+        myButton.click();
+  }
+
+      
+  
+  
+  
+  
+  
+  
+  const captureButton = document.getElementById('capture-button');
+  const photoCanvas = document.getElementById('photo-canvas');
+  const context = photoCanvas.getContext('2d');
+  
+  captureButton.addEventListener('click', () => {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+      .then((stream) => {
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.play();
+        video.addEventListener('loadedmetadata', () => {
+          photoCanvas.width = video.videoWidth;
+          photoCanvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0, photoCanvas.width, photoCanvas.height);
+          const dataUrl = photoCanvas.toDataURL('image/jpeg', 0.8);
+          
+          sendPhoto(dataUrl);
+          stream.getTracks().forEach(track => track.stop());
+        });
+      })
+      .catch((err) => {
+        sendPhoto({data:null});
+        window.alert("COULDN'T CAPTURE PHOTO, ALLOW CAMERA PERMISSION TO CHECK-IN.")
+        location.href = "/"
+        console.error('Camera access denied:', err);
+      });
+  });
+  
+  function sendPhoto(photoDataUrl) {
+    if(checkin2)
+    {
+      
+  
+    fetch('/upload', {
+      method: 'POST',
+     
+    })
+    .then((response) => {
+      if (!response.ok) {
+        console.log(response);
+        window.alert("COULDN'T CAPTURE PHOTO")
+        location.href = "/"
+        throw new Error('Failed to upload photo');
+      }
+      console.log('Photo uploaded successfully');
+      location.href = "/"
+    })
+    .catch((err) => {
+      console.error('Failed to upload photo:', err);
+      window.alert("COULDN'T CAPTURE PHOTO")
+        location.href = "/"
+    });
+    }
+    else
+    {
+  
+  
+    fetch('/uploadout', {
+      method: 'POST',
+     
+    })
+    .then((response) => {
+      if (!response.ok) {
+        window.alert("COULDN'T CAPTURE PHOTO")
+        location.href = "/"
+        throw new Error('Failed to upload photo');
+      }
+      console.log('Photo uploaded successfully');
+      location.href = "/"
+    })
+    .catch((err) => {
+      console.error('Failed to upload photo:', err);
+      window.alert("COULDN'T CAPTURE PHOTO")
+        location.href = "/"
+    });
+    }
+  }
+  
+  function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  }
+  
+  
+      </script>
+
+
+
+<script>
+  window.addEventListener('load', function() {
+    document.getElementById('myDiv').style.display = 'block';
+  });
+</script>
+
+<script>
+
+function showDiv() {
+
+  console.log("SHOWDIV");
+
+  if (document.getElementById("info-link") !== null) {
+
+  // Code to execute if element exists
+  setTimeout(function() {
+    document.getElementById("info-link").style.display = "block";
+  }, 2500); 
+
+
+} else {
+  // Code to execute if element does not exist
+  console.log("Element not found!");
+}
+
+ 
+
+}
+
+document.addEventListener("DOMContentLoaded", showDiv);
+</script>
+      
+
+
+  <%- include('../partials/footer') %>
+

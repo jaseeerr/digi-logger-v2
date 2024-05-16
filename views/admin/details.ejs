@@ -1,0 +1,240 @@
+<%- include('../partials/admin-header') %>
+
+
+ 
+
+      
+<section class="content-main">
+    <div class="content-header">
+        <div class="">
+            <h2 class="content-title card-title text-center"><%=user.name %> || <%=user.batch %> || <%=user.domain %> </h2>
+            <p>Whole data about attendance here</p>
+            <!-- <a href="/admin/markcheckin/<%=user._id %>" class="btn-primary" style="padding: 2%;border-radius: 5px;">Regularize Check-in</a> <br> <br>
+          
+            <a href="/admin/markcheckout/<%=user._id %>" class="btn-primary" style="padding: 2%;border-radius: 5px;">Regularize Check-out</a> -->
+           
+         
+        </div>
+        <div>
+      
+          
+        </div>
+    </div>
+
+ <!--  -->
+ <button id="show-form-btn" class="btn-primary p-1" style="border-radius: 5px;">Regularize Check-in</button> <br> <br>
+ 
+
+ <div id="form-container" style="display:none;">
+    <form method="post" action="/admin/markcheckin/<%=user._id %>">
+     <!-- Your form fields here -->
+     <textarea name="reason" cols="2" rows="2" placeholder="REASON FOR REGULARIZATION" required></textarea>
+    
+     <button type="submit" class="btn-primary p-1"  >Submit</button>
+   </form>
+ </div>
+ 
+ <button id="show-form-btn1" class="btn-primary p-1" style="margin-top: 5px;border-radius: 5px;">Regularize Check-out</button> <br>
+ <div id="form-container1" style="display:none;">
+    <form method="post" action="/admin/markcheckout/<%=user._id %>">
+      <!-- Your form fields here -->
+      <textarea name="reason" cols="2" rows="2" placeholder="REASON FOR REGULARIZATION" required></textarea>
+     
+      <button type="submit"  class="btn-primary p-1">Submit</button>
+    </form>
+  </div>
+<!--  -->
+
+    <div class="row d-flex justify-content-center">
+      
+      <div class="col-xl-4 col-lg-12">
+        <div class="card mb-4">
+            <!-- <article class="card-body">
+                <h5 class="card-title">Payment methods</h5>
+                <canvas id="myChart2" height="217"></canvas>
+            </article> -->
+
+            <article class="card-body">
+                <h5 class="card-title">Attendance</h5>
+                <span class="text-muted font-xs">Current Attendance of this month</span>
+                <div class="progress mb-3">
+                
+                    <div class="progress-bar" role="progressbar" style="width: <%=percentage%>%"><%=percentage%>%</div>
+                    
+                </div>
+              
+                
+            </article>
+        </div>
+        
+    </div>
+
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light" ><i class="text-danger material-icons md-event_busy" style="position: relative;top:12px;" ></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Absent Days</h6>
+                        <span><%=absent %></span>
+                        <span class="text-sm mt-5 mb-5">
+                            Absent days of current month
+                        </span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        
+        
+        <!-- <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code" style="position: relative;top:12px;"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Products</h6> <span>85</span>
+                        <span class="text-sm">
+                            In 5 Categories
+                        </span>
+                    </div>
+                </article>
+            </div>
+        </div> -->
+        <!-- <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket" style="position: relative;top:12px;"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Monthly Earning</h6> <span>$6,982</span>
+                        <span class="text-sm">
+                            Based in your local time.
+                        </span>
+                    </div>
+                </article>
+            </div>
+        </div> -->
+    </div>
+    
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-8 col-lg-12">
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">Statistics</h5>
+                    <canvas id="myChart" height="120px"></canvas>
+                </article>
+            </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card mb-4">
+                       
+                    </div>
+                </div>
+                <!-- <div class="col-lg-7">
+                    <div class="card mb-4">
+
+
+<article class="card-body">
+                    <h5 class="card-title">Marketing Chanel</h5>
+                    <span class="text-muted font-xs">Facebook</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 15%">15%</div>
+                    </div>
+                    <span class="text-muted font-xs">Instagram</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 65%">65% </div>
+                    </div>
+                    <span class="text-muted font-xs">Google</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 51%"> 51% </div>
+                    </div>
+                    <span class="text-muted font-xs">Twitter</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
+                    </div>
+                    <span class="text-muted font-xs">Other</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
+                    </div>
+                </article>
+
+                       
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+
+        
+       
+         <canvas id="chartData" style="display: none;"  data-monthly="<%=daily %>" ></canvas>
+          <canvas id="chartData1" style="display: none;"   data-overall="<%=overall %>"></canvas>
+
+       
+               
+</section>
+
+<% if (badstd) { %>
+    <div class="alert alert-warning text-center" style="position:fixed;top:60px;left:550px;" role="alert" id="alert">
+        <%=user.name %> haven't checked in yet. We can only regularize his log if he is already checked-in today.
+      </div>
+<% } %>
+
+
+
+<script>
+    const showFormBtn = document.getElementById("show-form-btn");
+const formContainer = document.getElementById("form-container");
+let x = 2
+showFormBtn.addEventListener("click", function() {
+ if(x%2==0)
+ {
+    formContainer.style.display = "block";
+    x++
+ }
+ else
+ {
+    formContainer.style.display = "none";
+    x++
+ }
+
+ 
+});
+
+
+
+
+const showFormBtn1 = document.getElementById("show-form-btn1");
+const formContainer1 = document.getElementById("form-container1");
+let x1 = 2
+showFormBtn1.addEventListener("click", function() {
+ if(x1%2==0)
+ {
+    formContainer1.style.display = "block";
+    x1++
+ }
+ else
+ {
+    formContainer1.style.display = "none";
+    x1++
+ }
+
+ 
+});
+
+</script>
+
+<script>
+
+
+
+
+    function hideDiv() {
+    document.getElementById('alert').style.display = 'none';
+    }
+    setTimeout(hideDiv, 10000); // Hide the div after 3 seconds (3000 milliseconds)
+        document.getElementById('cartbtn').onclick = 
+        ()=> {
+            document.getElementById('submitbtn').click()
+        }
+    </script>
+
+  <%- include('../partials/footer') %>
+

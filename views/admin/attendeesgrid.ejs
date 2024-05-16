@@ -1,0 +1,139 @@
+<%- include('../partials/admin-header') %>
+
+
+
+<section>
+  <div class="card-body">
+    <h5>ATTENDEES OF <%=attendees[0].batch %> || <%=date %> </h5>
+    <a href="/admin/attendeestable" class="btn btn-primary ">Download Report</a>
+    <hr>
+    <div class="table-responsive">
+        <div class="table-responsive">
+           
+            <table class="table table-hover"  style="overflow-y: hidden;">
+                <thead>
+                    <tr>
+                      
+                        <th scope="col" class="text-center">Sl No.</th>
+                        <th scope="col" class="text-center">Name</th>
+                        <th scope="col" class="text-center">Domain</th>
+                        <th scope="col" class="text-center">Phone</th>
+
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <% let x =1 %>
+                    
+<% attendees.forEach(element => { %>
+
+
+
+                    <tr>
+                     
+                        
+                        <td class="text-center"><b><%=x++%></b></td>
+                        <td class="text-center"><b><%=element.name %></b></td>
+                        <td class="text-center"><b><%=element.domain %></b></td>
+                        <td class="text-center"><b><%=element.phone %></b></td>
+                       
+                       
+                       
+                     
+                       
+                       
+
+                      
+                        
+                    </tr>
+                    <% }) %>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- table-responsive end// -->
+</div>
+</section>
+
+<section>
+   
+  <!--End nav-tabs-->
+      <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+          <div class="row product-grid-4">
+            <% attendees.forEach(element => { %>
+             
+       
+              <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                  <div class="product-cart-wrap mb-30">
+                      <div class="product-img-action-wrap">
+                          <div class="product-img product-img-zoom">
+                              <a href="#">
+
+                                
+                                <img class="default-img" src="/images/attendees/checkin/<%=element.checkinImg[element.index] %>" alt="">
+                          
+                                <img class="hover-img" src="/images/attendees/checkout/<%=element.checkoutImg[element.index1] %>" alt="">
+
+
+                              </a>
+                          </div>
+                         
+                          <div class="product-badges product-badges-position product-badges-mrg">
+                              <span class="hot">Present</span>
+                          </div>
+                      </div>
+                      <div class="product-content-wrap">
+                          <div class="product-category">
+                              
+                          </div>
+                          <h2><a href="#"><%=element.name %> || <%=element.domain %></a></h2>
+                          <a href="#"><%=element.batch %></a>
+                         
+                          <div class="product-price">
+                              <span><%=element.phone %> </span>
+                           
+                          </div>
+                          <div class="product-action-1 show ">
+                              <a aria-label="Mark absent" class="action-btn hover-up bg-light" href="/admin/removeattendance/<%=element._id %>"><i class="material-symbols-outlined"></i>🗑️</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <% }) %>
+
+              
+
+              
+             
+             
+             
+             
+             
+            
+            
+          </div>
+          <!--End product-grid-4-->
+      </div>
+
+
+
+
+
+</section>
+
+
+<script>
+    $(document).ready(function() {
+  $("#myImg").mouseover(function() {
+    $(this).attr("src", "image2.jpg");
+  });
+  $("#myImg").mouseout(function() {
+    $(this).attr("src", "image1.jpg");
+  });
+});
+</script>
+
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<%- include('../partials/footer') %>

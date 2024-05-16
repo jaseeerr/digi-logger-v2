@@ -1,0 +1,103 @@
+<%- include('../partials/admin-header') %>
+
+      
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            
+            <% if (date) { %>
+                <h2 class="content-title card-title"><B><B>ATTENDEES REPORT OF <%=date %> </B></B></h2>
+
+                <% } else { %>
+                    <h2 class="content-title card-title">ATTENDEES REPORT </h2>
+            <% } %>
+            
+        </div>
+        
+    </div>
+    <div class="card mb-4">
+     
+ 
+            <form action="/admin/getcustomattendees" method="post">
+ 
+                
+               
+            <div class="row align-items-center" style="margin:30px;">
+                Custom
+               
+                <div class="col-md-2 col-6"> 
+                    <input type="date"  name="date" value="2023-05-01"   class="form-control" required>
+                </div>
+                <!-- <div class="col-md-2 col-6">
+                    TO<input type="date"  name="end"   class="form-control" required>
+                </div> -->
+             
+                <div class="col" >
+                    <button  class="btn btn-xs" type="submit" >GET</button>
+                    </div>
+                
+            </div>
+           </form>
+ 
+ 
+          
+     
+        
+        </header>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="table-responsive">
+                   
+                    <table class="table table-hover" id="myTable">
+                        <thead>
+                            <tr>
+                              
+                                <th scope="col" class="text-center">Sl No.</th>
+                                <th scope="col" class="text-center">batch</th>
+                                <th scope="col" class="text-center">More info</th>
+    
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let x =1 %>
+                            
+   <% if (batches) { %>
+    <% batches.forEach(element => { %>
+        
+     
+    
+        <tr>
+         
+            
+            <td class="text-center"><b><%=x++%></b></td>
+            <td class="text-center"><b><%=element %></b></td>
+           
+           
+           
+         
+           
+           
+
+            <td class="text-center">
+                <a href="/admin/attendeesgrid/<%=element %>"  class="btn btn-md rounded font-sm bg-success">View More</a>
+            </td>
+            
+        </tr>
+        <% }) %>
+    
+   <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- table-responsive end// -->
+        </div>
+    </div>
+ </section>
+
+
+
+
+
+  <%- include('../partials/footer') %>
+

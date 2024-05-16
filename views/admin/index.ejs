@@ -1,0 +1,159 @@
+<%- include('../partials/admin-header') %>
+
+<link rel="stylesheet" href="">
+
+
+
+<section class="content-main">
+    <div class="content-header">
+        <div class="">
+            <h2 class="content-title card-title text-center">Dashboard </h2>
+            <p>Whole data about your students here</p>
+        </div>
+       
+    </div>
+
+    
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-5">
+            <div class="card mb-4">
+                <article class="card-body" style="overflow-y: auto; max-height: 250px;">
+                    <div >
+                        <h5 class="card-title" >Today's Absentees  <a href="/admin/todaysabsenteespdf" class="btn-primary p-1" style="border-radius: 3px;">Download report</a></h5>
+                    </div>
+                   
+                    <hr>
+                    <% if (todays.length==0) { %>
+                     <h6>NO DATA FOUND</h6>
+
+                    <% } %>
+                    <div class="new-member-list" >
+                        <% if (todays.length!=0) { %>
+                         
+                            <% todays.forEach(element => { %>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="/stylesheets/assets-backend/imgs/dp.avif" alt="" class="avatar">
+                                        <div>
+                                            <h6><%=element.name %></h6>
+                                            <p class="text-muted font-xs">
+                                               <%=element.batch %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <a href="/admin/details/<%=element._id %>" class="btn btn-xs"><i class="material-icons md-add"></i> View</a>
+                                </div>
+                            <% }) %>
+
+                            
+
+                            
+                            <% } %>
+                    
+                    </div>
+
+                   
+
+                    
+
+                    
+                    
+                </article>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card mb-4">
+                <article class="card-body" style="overflow-y: auto; max-height: 250px;">
+                    <div >
+                        <h5 class="card-title">Frequent Absentees <a href="/admin/frequentabsenteespdf" class="btn-primary p-1" style="border-radius: 3px;">Download report</a>
+                        </h5>
+                       
+                    </div>
+                   
+                    <hr>
+                    <div class="new-member-list">
+
+                        <% data.forEach(element => { %>
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="/stylesheets/assets-backend/imgs/dp.avif" alt="" class="avatar">
+                                    <div>
+                                        <h6><%=element.name %></h6>
+                                        <p class="text-muted font-xs">
+                                            <%=element.batch %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <a href="/admin/details/<%=element._id %>" class="btn btn-xs"><i class="material-icons md-add"></i> View</a>
+                            </div>
+                        <% }) %>
+                       
+                       
+                    </div>
+                </article>
+            </div>
+        </div>
+
+<!-- //batches -->
+        
+
+
+
+
+            <div class="row">
+               
+                <!-- <div class="col-lg-7">
+                    <div class="card mb-4">
+
+
+<article class="card-body">
+                    <h5 class="card-title">Marketing Chanel</h5>
+                    <span class="text-muted font-xs">Facebook</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 15%">15%</div>
+                    </div>
+                    <span class="text-muted font-xs">Instagram</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 65%">65% </div>
+                    </div>
+                    <span class="text-muted font-xs">Google</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 51%"> 51% </div>
+                    </div>
+                    <span class="text-muted font-xs">Twitter</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
+                    </div>
+                    <span class="text-muted font-xs">Other</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" style="width: 80%"> 80%</div>
+                    </div>
+                </article>
+
+                       
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+
+        
+       
+         <canvas id="chartData" style="display: none;"  data-monthly="" ></canvas>
+          <canvas id="chartData1" style="display: none;"   data-overall=""></canvas>
+
+       
+               
+</section>
+
+
+
+
+
+
+
+
+
+  <%- include('../partials/footer') %>
+

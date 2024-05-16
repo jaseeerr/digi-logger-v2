@@ -1,0 +1,107 @@
+<%- include('../partials/admin-header') %>
+
+      
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            
+            <% if (date) { %>
+                <h2 class="content-title card-title"><B><B>REGULARIZATION LOGS OF <%=date %> </B></B></h2>
+
+                <% } else { %>
+                    <h2 class="content-title card-title">REGULARIZATION LOGS </h2>
+            <% } %>
+            
+        </div>
+        
+    </div>
+    <div class="card mb-4">
+     
+ 
+            <form action="/admin/getregularizations" method="post">
+ 
+                
+               
+            <div class="row align-items-center" style="margin:30px;">
+                Custom
+               
+                <div class="col-md-2 col-6"> 
+                    <input type="date"  name="date" value="2023-05-01"   class="form-control" required>
+                </div>
+                <!-- <div class="col-md-2 col-6">
+                    TO<input type="date"  name="end"   class="form-control" required>
+                </div> -->
+             
+                <div class="col" >
+                    <button  class="btn btn-xs" type="submit" >GET</button>
+                    </div>
+                
+            </div>
+           </form>
+ 
+ 
+          
+     
+        
+        </header>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="table-responsive">
+                   
+                    <table class="table table-hover" id="myTable">
+                        <thead>
+                            <tr>
+                              
+                                <th scope="col" class="text-center">Date</th>
+                                <th scope="col" class="text-center">Student</th>
+                                <th scope="col" class="text-center">Student Phone</th>
+                                <th scope="col" class="text-center">Admin</th>
+                                <th scope="col" class="text-center">Admin Phone</th>
+                                <th scope="col" class="text-center">Type</th>
+                                <th scope="col" class="text-center">Reason</th>
+
+                                
+    
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                            
+   <% if (data) { %>
+    <% data.forEach(element => { %>
+        
+     
+    
+        <tr>
+         
+            <% let x = element.date %>
+            <% x = x.substring(0,10) %>
+            <td class="text-center"><b><%=x%></b></td>
+
+            <td class="text-center"><b><%=element.student %></b></td>
+            <td class="text-center"><b><%=element.stdphone %></b></td>
+            <td class="text-center"><b><%=element.admin %></b></td>
+            <td class="text-center"><b><%=element.adminphone %></b></td>
+            <td class="text-center"><b><%=element.type %></b></td>
+            <td class="text-center"><b><%=element.reason %></b></td>
+           
+            
+        </tr>
+        <% }) %>
+    
+   <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- table-responsive end// -->
+        </div>
+    </div>
+ </section>
+
+
+
+
+
+  <%- include('../partials/footer') %>
+

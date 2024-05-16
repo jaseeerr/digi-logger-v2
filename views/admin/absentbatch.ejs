@@ -1,0 +1,65 @@
+<%- include('../partials/admin-header') %>
+
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">All Students</h2>
+          
+        </div>
+        <!-- <div>
+            <input type="text" placeholder="Search order ID" class="form-control bg-white">
+        </div> -->
+    </div>
+    <div class="card mb-4">
+       
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">batch</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">domain</th>
+                            <th scope="col">More info</th>
+
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let x = 1 %>
+<% data.forEach(element => { %>
+    
+ 
+
+                        <tr>
+                            <% let id=element._id %> 
+                           
+                             <td> <%=x++ %></td>                            
+                            <td><b><%=element.name %></b></td>
+                            <td><b><%=element.batch %></b></td>
+                           
+                            <td><%=element.phone %></td>
+                            <td><%=element.domain %></td>
+                          
+                         
+                            <td>
+                                <a href="/admin/details/<%=id %>"  class="btn btn-md rounded font-sm bg-success">View More</a>
+                            </td>
+                            
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+
+                
+          
+            </div> <!-- table-responsive //end -->
+        </div> <!-- card-body end// -->
+    </div> <!-- card end// -->
+   
+</section>
+
+<%- include('../partials/footer') %>

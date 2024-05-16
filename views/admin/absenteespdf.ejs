@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width:fit-content;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+</style>
+</head>
+<body>
+<center>
+  <input type="hidden" id="batch" value="<%=data[0].batch %>">
+    <h5>Absentees of <%=date %></h5>
+    <input type="hidden" id="report-date" value="<%=date %>">
+     
+        <table id="printTable">
+           <tr>
+            <th>Name</th>
+            <th>Batch</th>
+            <th>Phone</th>
+            <th>Domain</th>
+           </tr>
+           <% data.forEach(element => { %>
+           <tr>
+            <td><%=element.name %></td>
+            <td><%=element.batch %></td>
+            <td><%=element.phone %></td>
+            <td><%=element.domain %></td>
+           </tr>
+           <% }) %>
+        </table>
+
+        <button id="printButton" onclick="print()">Download as pdf</button>
+        <button onclick="ExportToExcel('xlsx')">Download as excel file</button>
+
+
+
+ 
+
+
+
+</center>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+
+<script>
+
+let x = document.getElementById('report-date').value
+let batch = document.getElementById('batch').value
+
+
+window.jsPDF = window.jspdf.jsPDF;
+var docPDF = new jsPDF();
+function print(){
+var elementHTML = document.querySelector("#printTable");
+docPDF.html(elementHTML, {
+ callback: function(docPDF) {
+  docPDF.save( `Absentees of ${x}_${batch}.pdf`);
+ },
+ x: 15,
+ y: 15,
+ width: 170,
+ windowWidth: 650
+});
+}
+</script>
+
+
+<script>
+
+
+
+
+    function ExportToExcel(type, fn, dl) {
+       var elt = document.getElementById('printTable');
+       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+       return dl ?
+         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         XLSX.writeFile(wb, fn || (`Absentees of ${x}_${batch}.` + (type || 'xlsx')));
+    }
+</script>
+</body>
+</html>
+

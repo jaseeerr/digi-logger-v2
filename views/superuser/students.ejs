@@ -1,0 +1,89 @@
+<%- include('../partials/suadmin-header') %>
+
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">All Students</h2>
+          
+        </div>
+        <!-- <div>
+            <input type="text" placeholder="Search order ID" class="form-control bg-white">
+        </div> -->
+    </div>
+    <div class="card mb-4">
+       
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover" id="myTable">
+                    <thead>
+                        <tr>
+                          
+                            <th scope="col">Username</th>
+                            <th scope="col">batch</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">domain</th>
+                            
+                            <th scope="col">Status</th>
+                           
+                           
+                            <th scope="col" class="text-start"> Actions </th>
+                            <th scope="col">More info</th>
+
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+<% data.forEach(element => { %>
+    
+ 
+
+                        <tr>
+                            <% let id=element._id %> 
+                         
+                            
+                            <td><b><%=element.name %></b></td>
+                            <td><b><%=element.batch %></b></td>
+                           
+                            <td><%=element.phone %></td>
+                            <td><%=element.domain %></td>
+                           
+                            <% if (element.block) { %>
+                                <td><span class="badge rounded-pill bg-danger">Blocked</span></td>
+
+                                <% } else { %>
+                                    <td><span class="badge rounded-pill alert-success">Unblocked</span></td>
+                            <% } %>
+                           
+                            <% if (element.block) { %>
+                                <td class="text-start">
+                                   
+                                    <a href="/admin/unblockuser/<%=id %>" onclick="return confirm('Are you sure you want to unblock this user? Click ok to confirm');" class="btn btn-md rounded font-sm bg-success">Unblock</a>
+
+                                </td>
+                                <% } else { %>
+                                    <td class="text-start">
+                                       
+
+                                        <a href="/admin/blockuser/<%=id %>" onclick="return confirm('Are you sure you want to block this user? Click ok to confirm');" class="btn btn-md rounded font-sm bg-danger">Block</a>
+                                    </td>
+                            <% } %>
+
+                            <td>
+                                <a href="/admin/superuser/details/<%=id %>"  class="btn btn-md rounded font-sm bg-success">View More</a>
+                            </td>
+                            
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+
+                
+          
+            </div> <!-- table-responsive //end -->
+        </div> <!-- card-body end// -->
+    </div> <!-- card end// -->
+   
+</section>
+
+<%- include('../partials/footer') %>
