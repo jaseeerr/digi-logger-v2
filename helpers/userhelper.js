@@ -97,114 +97,128 @@ module.exports = {
 
     },
 
-    checkin:(data1)=>{
+    checkin:(data1,img)=>{
         return new Promise((resolve, reject) => {
 
             User.findById(data1.sid).then((user)=>{
 
                 
-           
-                Attendance.findOne({sid:data1.sid}).then((data2)=>{
+            let image = user.checkinImg
+            image.push(img)
+
+                User.findByIdAndUpdate(data1.sid,{
+                    $set:{
+                        checkinImg:image
+                    }
+                }).then(()=>{
+    
+    
+                    Attendance.findOne({sid:data1.sid}).then((data2)=>{
     
                     
-                    console.log(data2);
-     
-                         if(!data2)
-                         {
-                             let arr = []
-                              arr[0] = data1.date
-                             
-         
-                              const attend = new Attendance({
-                 
-                                 
-                                 sid:data1.sid,
-                                 checkin:arr,
-                                 limit:1,
-                                 
-                                 
-                                 
-                                 
-                 
-                             })
-                 
-                             attend.save().then((data)=>{resolve(data)})
-                         }
-                         else
-                         {
-                             let lastin = data2.checkin[data2.checkin.length-1]
-                             let current = data1.date
- 
-                           
+                   console.log(data2);
+    
+                        if(!data2)
+                        {
+                            let arr = []
+                             arr[0] = data1.date
                             
-          
-         
-                            
- 
-                             if(lastin!==undefined)
-                             {
-                                 if(lastin.getDate()==current.getDate() && lastin.getMonth()==current.getMonth() && lastin.getFullYear() == current.getFullYear())
-                                 {
-                                     userdata = false
-                                     resolve(userdata)
-                                 }
-                             }
-                             else
-                             {
- 
-                               
-                             let arr = data2.checkin
-                             let limit = data2.limit +1
-         
-                             let attend1 = data2.attendance
-                             
-                             
-                             
-                             arr.push(data1.date)
-         
-                             console.log("ARRRRRRRRRR");
-                             console.log(data2._id);
-                             console.log(arr);
+        
+                             const attend = new Attendance({
+                
+                                
+                                sid:data1.sid,
+                                checkin:arr,
+                                limit:1,
+                                
+                                
+                                
+                                
+                
+                            })
+                
+                            attend.save().then((data)=>{resolve(data)})
+                        }
+                        else
+                        {
+                            let lastin = data2.checkin[data2.checkin.length-1]
+                            let current = data1.date
+
                           
+                           
          
-                             Attendance.findByIdAndUpdate(data2._id,{
-                                 $set:{
-                                     checkin:arr
-                                     
-                                    
-                                 }
-                             }).then(()=>{
-                                 console.log("HERERERE");
-         
-                                 User.findByIdAndUpdate(data1.sid,{
-                                     $set:{
-                                         checkin:true
-                                     }
-                                 }).then(()=>{
-         
-                                    User.findById(data1.sid).then((userdata1)=>{
-         
-                                    
-                                     resolve(userdata1)
-                                    })
-         
-                                  
-                                 })
-         
-                               
-                                 
-                                 
-                             })
-                             }
-         
-                             
-                         }
-          
+        
+                           
+
+                            if(lastin!==undefined)
+                            {
+                                if(lastin.getDate()==current.getDate() && lastin.getMonth()==current.getMonth() && lastin.getFullYear() == current.getFullYear())
+                                {
+                                    userdata = false
+                                    resolve(userdata)
+                                }
+                            }
+                            else
+                            {
+
+                              
+                            let arr = data2.checkin
+                            let limit = data2.limit +1
+        
+                            let attend1 = data2.attendance
+                            
+                            
+                            
+                            arr.push(data1.date)
+        
+                            console.log("ARRRRRRRRRR");
+                            console.log(data2._id);
+                            console.log(arr);
                          
+        
+                            Attendance.findByIdAndUpdate(data2._id,{
+                                $set:{
+                                    checkin:arr
+                                    
+                                   
+                                }
+                            }).then(()=>{
+                                console.log("HERERERE");
+        
+                                User.findByIdAndUpdate(data1.sid,{
+                                    $set:{
+                                        checkin:true
+                                    }
+                                }).then(()=>{
+        
+                                   User.findById(data1.sid).then((userdata1)=>{
+        
+                                   
+                                    resolve(userdata1)
+                                   })
+        
+                                 
+                                })
+        
+                              
+                                
+                                
+                            })
+                            }
+        
+                            
+                        }
          
-                         
-         
-                     })
+                        
+        
+                        
+        
+                    })
+    
+    
+    
+    
+                })
     
 
             })
@@ -248,19 +262,19 @@ module.exports = {
             Attendance.findOne({sid:data1.sid}).then((data2)=>{
 
                
-                let lastin = data2?.checkin[data2?.checkin?.length-1]
-                let checkin = data2?.checkin
-                let out = data1?.date
+                let lastin = data2.checkin[data2.checkin.length-1]
+                let checkin = data2.checkin
+                let out = data1.date
                 let absent = false
 
                 console.log("LASTT INNNNNNNNNNNN");
                 console.log(lastin)
                 console.log(out);
 
-                if(lastin?.getDate()!=out?.getDate())
+                if(lastin.getDate()!=out.getDate())
                 {
                     absent = true
-                    checkin?.pop()
+                    checkin.pop()
                 }
                 else
                 {
@@ -269,7 +283,7 @@ module.exports = {
                         
 
                         absent = true
-                        checkin?.pop()
+                        checkin.pop()
                     }
                 }
 
@@ -534,7 +548,7 @@ module.exports = {
                         
                         let day = Number(temp)
     
-                        monthly[day-1] = 1
+                        monthly[day] = 1
                         }
                     }
                     
@@ -683,6 +697,8 @@ module.exports = {
                     attendance:percentage
                 }
               }).then(()=>{
+                console.log(monthly)
+                console.log("monthlyy");
                 resolve({monthly,overall,absent,percentage})
 
 

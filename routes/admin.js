@@ -111,7 +111,7 @@ router.get('/superuser/unblockadmin/:id',suAuth.adminAuthentication,suController
 router.get('/superuser/blockadmin/:id',suAuth.adminAuthentication,suController.blockadmin)
 
 /* GET more info. */
-router.get('/superuser/details/:id',suAuth.adminAuthentication,adminController.details)
+router.get('/superuser/details/:id',suAuth.adminAuthentication,suController.details)
 
 
 

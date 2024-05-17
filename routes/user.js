@@ -18,10 +18,10 @@ router.get('/signup',userController.signup);
 /* POST signup page. */
 router.post('/signup_submit',userController.postsignup);
 /* POST UPLOAD IMAGE*/ 
-router.post('/upload',userAuth.userAuthentication,userController.upload)
+router.post('/upload',userAuth.userAuthentication,multer.single('photo'),userController.upload)
 
 /* POST UPLOAD IMAGE*/ 
-router.post('/uploadout',userAuth.userAuthentication,userController.upload1)
+router.post('/uploadout',userAuth.userAuthentication,multer1.single('photo'),userController.upload1)
 
 
 

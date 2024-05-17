@@ -121,17 +121,17 @@
             <p id="device-model"></p>
         </div>
         <div>
-          <!-- <% if (signedin) { %>
-            <% if (userdata.dev1==thisfp || userdata.dev2==thisfp) { %> -->
-            <a href="/checkin" class="btn btn-primary" style="background-color:#0e4d92;" ><i class="text-muted material-icons md-login"></i>CHECK-OUT</a>
-            <!-- <% } %>
+          <% if (signedin) { %>
+            <% if (userdata.dev1==thisfp || userdata.dev2==thisfp) { %>
+            <a onclick="run(false)" class="btn btn-primary" style="background-color:#0e4d92;" ><i class="text-muted material-icons md-login"></i>CHECK-OUT</a>
+            <% } %>
             <% } else if (!signedin && userdata.dev1 && userdata.dev2) { %>
-              <% if (userdata.dev1==thisfp || userdata.dev2==thisfp) { %> -->
+              <% if (userdata.dev1==thisfp || userdata.dev2==thisfp) { %>
                
-                <a href="/checkout" class="btn btn-primary" style="background-color:#0e4d92;"><i class="text-muted material-icons md-login"></i>CHECK-IN</a>
+                <a onclick="run(true)" class="btn btn-primary" style="background-color:#0e4d92;"><i class="text-muted material-icons md-login"></i>CHECK-IN</a>
 
-              <!-- <% } %>
-              <% } %> -->
+              <% } %>
+              <% } %>
             
             <div id="clock"></div>
             <% if (noip) { %>
@@ -315,7 +315,7 @@
   
   
   
-  const captureButton = document.getElementById('capture-button');
+        const captureButton = document.getElementById('capture-button');
   const photoCanvas = document.getElementById('photo-canvas');
   const context = photoCanvas.getContext('2d');
   
@@ -336,7 +336,6 @@
         });
       })
       .catch((err) => {
-        sendPhoto({data:null});
         window.alert("COULDN'T CAPTURE PHOTO, ALLOW CAMERA PERMISSION TO CHECK-IN.")
         location.href = "/"
         console.error('Camera access denied:', err);
@@ -346,11 +345,14 @@
   function sendPhoto(photoDataUrl) {
     if(checkin2)
     {
-      
+      const formData = new FormData();
+    const blob = dataURItoBlob(photoDataUrl);
+    formData.append('photo', blob);
+    formData.append('checkin', checkin);
   
     fetch('/upload', {
       method: 'POST',
-     
+      body: formData
     })
     .then((response) => {
       if (!response.ok) {
@@ -370,11 +372,14 @@
     }
     else
     {
-  
+      const formData = new FormData();
+    const blob = dataURItoBlob(photoDataUrl);
+    formData.append('photo', blob);
+    formData.append('checkin', checkin);
   
     fetch('/uploadout', {
       method: 'POST',
-     
+      body: formData
     })
     .then((response) => {
       if (!response.ok) {

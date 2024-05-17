@@ -20,7 +20,7 @@ module.exports = {
                 req.session.todays = todays
                 let temp = []
                 todays.forEach(element => {
-                    temp.push(element.batch)
+                    temp.push(element?.batch)
                 });
 
                 const temp1 = new Set(temp);

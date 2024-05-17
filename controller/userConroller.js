@@ -31,10 +31,11 @@ module.exports = {
 
 
       console.log(userdata1);
+      console.log("usd^^")
        
          userHelper.getUser(userdata1._id).then((userdata)=>{
 
-          
+          console.log(userdata)
       if(userdata.checkin)
       {
         req.session.signedin = true
@@ -96,8 +97,8 @@ module.exports = {
 
     upload1:(req, res) => {
 
-      // console.log(req.file)
-      // req.session.img = req.file.filename
+      console.log(req.file)
+      req.session.img = req.file.filename
 
     
       
@@ -207,82 +208,83 @@ module.exports = {
 
      
 
-      const date = new Date();
 
 
-       
-      let data = {
-          date: date,
-          sid: req.session.userdata._id
-      }
-     
- 
-    
-     
 
-      userHelper.checkin(data).then((userdata) => {
-
-        if(userdata)
-        {
-          req.session.userdata = userdata
-        }
-        else
-        {
-          req.session.inout = true
-        }
-       
-        // console.log(userdata);
-
-          req.session.signedin = true
-          res.redirect('/')
-
-      })
-
-
+      let img = req.session.img
         
        
               
-      // const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+      const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-      // let title = ipAddress
-      // let title1
-      // title = title.split("")
-      // title1 = title.slice(0,11)
-      // title1 = title1.join("")
-      // req.session.ip = ipAddress
+      let title = ipAddress
+      let title1
+      title = title.split("")
+      title1 = title.slice(0,11)
+      title1 = title1.join("")
+      req.session.ip = ipAddress
 
       // title1=="103.214.235" || title1=="115.246.245"
-      //  console.log("incoming ip:::::::::::::: ",title1 );
-      //  console.log("network ip:::::::::::::::::: 115.246.245 & 103.214.235");      
-      // if (title1=="103.214.235" || title1=="115.246.245" || true) {
+       console.log("incoming ip:::::::::::::: ",title1 );
+       console.log("network ip:::::::::::::::::: 115.246.245 & 103.214.235");      
+      if (title1=="103.214.235" || title1=="115.246.245"|| true) {
 
-      //   req.session.noip = false
+        req.session.noip = false
        
         // req.session.userdata.dev1==req.session.thisfp || req.session.userdata.dev2==req.session.thisfp
-    //     if(req.session.userdata.dev1==req.session.thisfp || req.session.userdata.dev2==req.session.thisfp)
-    //     {
+        if(req.session.userdata.dev1==req.session.thisfp || req.session.userdata.dev2==req.session.thisfp )
+        {
           
 
-          
+          const date = new Date();
 
 
-    //     }
-    //     else
-    //     {
-    //       res.redirect('/')
-    //     }
+       
+        let data = {
+            date: date,
+            sid: req.session.userdata._id
+        }
+       
+   
+      
+       
+
+        userHelper.checkin(data,img).then((userdata) => {
+
+          if(userdata)
+          {
+            req.session.userdata = userdata
+          }
+          else
+          {
+            req.session.inout = true
+          }
+         
+          // console.log(userdata);
+
+            req.session.signedin = true
+            res.redirect('/')
+
+        })
+
+
+        }
+        else
+        {
+          res.redirect('/')
+        }
         
         
             
         
 
 
-    //      }
-    // else{
-    //   req.session.noip = true
-    //   res.redirect('/')
+         }
+    else{
+      req.session.noip = true
+      res.redirect('/')
        
-    //     }   
+        }   
        
            
          
@@ -307,85 +309,55 @@ module.exports = {
 
 
         const date = new Date();
-        req.session.noip = false
-        if(req.session.userdata.dev1==req.session.thisfp || req.session.userdata.dev2==req.session.thisfp)
+
+        const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+      let title = ipAddress
+      let title1
+      title = title.split("")
+      title1 = title.slice(0,11)
+      title1 = title1.join("")
+      req.session.ip = ipAddress
+
+        if (title1=="103.214.235" || title1=="115.246.245" || true)
         {
+          req.session.noip = false
+          if(req.session.userdata.dev1==req.session.thisfp || req.session.userdata.dev2==req.session.thisfp)
+          {
 
-          let data = {
-            date: date,
-            sid: req.session.userdata._id
-        }
-        let img = req.session.img
-
-        userHelper.checkout(data,img).then((userdata) => {
-
-
-          req.session.userdata = userdata
-          console.log("From controller");
-          console.log(userdata);
-          console.log("From controller ends");
-
-            req.session.signedin = false
-            res.redirect('/')
-
-        })
-
-        }
-        else
-        {
-               res.redirect('/')
-        }
-
-      
-
-      //   const ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-      // let title = ipAddress
-      // let title1
-      // title = title.split("")
-      // title1 = title.slice(0,11)
-      // title1 = title1.join("")
-      // req.session.ip = ipAddress
-
-      //   if (title1=="103.214.235" || title1=="115.246.245")
-      //   {
-      //     req.session.noip = false
-      //     if(req.session.userdata.dev1==req.session.thisfp || req.session.userdata.dev2==req.session.thisfp)
-      //     {
-
-      //       let data = {
-      //         date: date,
-      //         sid: req.session.userdata._id
-      //     }
-      //     let img = req.session.img
+            let data = {
+              date: date,
+              sid: req.session.userdata._id
+          }
+          let img = req.session.img
   
-      //     userHelper.checkout(data,img).then((userdata) => {
+          userHelper.checkout(data,img).then((userdata) => {
   
   
-      //       req.session.userdata = userdata
-      //       console.log("From controller");
-      //       console.log(userdata);
-      //       console.log("From controller ends");
+            req.session.userdata = userdata
+            console.log("From controller");
+            console.log(userdata);
+            console.log("From controller ends");
   
-      //         req.session.signedin = false
-      //         res.redirect('/')
+              req.session.signedin = false
+              res.redirect('/')
   
-      //     })
+          })
 
-      //     }
-      //     else
-      //     {
-      //            res.redirect('/')
-      //     }
+          }
+          else
+          {
+                 res.redirect('/')
+          }
 
         
           
-      //   }
-      //   else
-      //   {
-      //     req.session.noip = true
-      //     res.redirect('/')
-      //   }
+        }
+        else
+        {
+          req.session.noip = true
+          res.redirect('/')
+        }
 
        
 
