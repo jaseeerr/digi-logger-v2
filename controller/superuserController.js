@@ -103,7 +103,7 @@ module.exports = {
         let userdata = req.session.superuserdata
         let id = req.params.id
         console.log(id);
-        userHelper.checkattendance(id).then((data1)=>{
+        adminHelper.checkattendance(id).then((data1)=>{
 
 
 
